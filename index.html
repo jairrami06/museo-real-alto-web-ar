@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>WebAR - Museo Base</title>
+    <meta name="theme-color" content="#1c1917">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/public/images/icon.svg" type="image/svg+xml">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="/src/js/app.js" defer></script>
+
+    <style>
+        body { margin: 0; overflow: hidden; font-family: system-ui, -apple-system, sans-serif; }
+        a-scene#ar-scene {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            background: transparent !important;
+        }
+        .a-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100% !important;
+            height: 100% !important;
+            z-index: 1;
+        }
+        .ui-layer { z-index: 10; position: relative; }
+    </style>
+</head>
+<body class="bg-stone-900 text-stone-100">
+
+    <div id="screen-home" class="ui-layer fixed inset-0 flex flex-col justify-between p-6 transition-opacity duration-300 bg-cover bg-center"
+         style="background-image: linear-gradient(to bottom, rgba(28,25,23,0.4), rgba(28,25,23,0.95)), url('/public/images/home.webp');">
+
+        <div class="flex items-start justify-between gap-4 mt-1">
+            <div class="text-[10px] uppercase tracking-[0.35em] text-stone-400 font-semibold" data-i18n="ui.brand">
+                Proyecto Comunitario
+            </div>
+            <div class="flex gap-2 text-[11px] font-semibold">
+                <button type="button" class="lang-switch bg-stone-950/70 border border-stone-800 rounded-full px-3 py-1.5 text-amber-400" data-lang-choice="es">ES</button>
+                <button type="button" class="lang-switch bg-stone-950/40 border border-stone-800 rounded-full px-3 py-1.5 text-stone-300" data-lang-choice="en">EN</button>
+                <button type="button" class="lang-switch bg-stone-950/40 border border-stone-800 rounded-full px-3 py-1.5 text-stone-300" data-lang-choice="fr">FR</button>
+            </div>
+        </div>
+
+        <div class="text-center mt-8">
+            <span class="text-amber-500 font-bold tracking-widest text-xs uppercase px-3 py-1 bg-amber-500/10 rounded-full border border-amber-500/20" data-i18n="ui.badge">
+                Guia interactiva
+            </span>
+            <h1 class="text-white text-4xl font-extrabold mt-3 tracking-tight" data-i18n="ui.title">Museo AR Base</h1>
+            <p class="text-stone-400 text-sm mt-1" data-i18n="ui.location">Santa Elena · Ecuador</p>
+        </div>
+
+        <div class="bg-stone-900/80 backdrop-blur-md rounded-2xl p-6 mb-6 border border-stone-800 text-center shadow-xl">
+            <h2 class="text-amber-400 font-semibold mb-2 text-lg" data-i18n="ui.subtitle">Experiencia AR con marcadores de imagen</h2>
+            <p class="text-stone-300 text-xs leading-relaxed mb-6" data-i18n="ui.description">
+                Escanea las marcas impresas y visualiza laminas 2D sobre el entorno en tiempo real.
+            </p>
+
+            <button id="start-ar-button" onclick="startARExperience()"
+                    class="w-full bg-amber-500 hover:bg-amber-600 active:scale-[0.98] text-stone-950 font-bold py-3.5 px-6 rounded-xl transition duration-200 shadow-lg shadow-amber-500/20 text-sm tracking-wide">
+                <span data-i18n="ui.start">Iniciar experiencia WebAR</span>
+            </button>
+
+            <p class="text-[10px] text-stone-500 mt-3 flex items-center justify-center gap-1" data-i18n="ui.warning">
+                Requiere permisos de camara y un entorno bien iluminado
+            </p>
+        </div>
+    </div>
+
+    <div id="screen-ar-ui" class="ui-layer hidden fixed inset-0 pointer-events-none flex flex-col justify-between p-4">
+        <div class="flex justify-between items-center pointer-events-auto w-full">
+            <button onclick="exitARExperience()" class="bg-stone-950/80 backdrop-blur-md text-stone-200 p-2.5 rounded-full border border-stone-800 active:scale-90 transition" aria-label="Volver" data-i18n-aria-label="ui.back">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <div class="flex gap-2">
+                <span class="bg-stone-950/80 backdrop-blur-md text-amber-400 px-4 py-2 rounded-full text-xs font-semibold tracking-wide border border-stone-800" data-i18n="ui.scanner">
+                    Escaner activo
+                </span>
+                <span id="network-status" class="bg-stone-950/80 backdrop-blur-md text-emerald-400 px-4 py-2 rounded-full text-xs font-semibold tracking-wide border border-stone-800">
+                    En linea
+                </span>
+            </div>
+            <div class="w-10"></div>
+        </div>
+
+        <div class="w-full bg-stone-950/90 text-white p-4 rounded-xl pointer-events-auto border border-stone-800 shadow-2xl mb-4 max-w-md mx-auto">
+            <div class="flex items-center gap-3">
+                <div class="w-2 h-2 bg-amber-500 rounded-full animate-ping"></div>
+                <p id="scan-status" class="text-xs text-stone-300 font-medium tracking-wide" data-i18n="ui.scanPrompt">
+                    Apunta la camara hacia una marca valida...
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <a-scene embedded
+             vr-mode-ui="enabled: false"
+             loading-screen="enabled: false"
+             arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono;"
+             class="hidden"
+             id="ar-scene">
+
+        <a-assets>
+            <img id="overlay-estacion1" src="/public/assets/overlays/estacion-1.svg" alt="Estacion 1">
+            <img id="overlay-estacion2" src="/public/assets/overlays/estacion-2.svg" alt="Estacion 2">
+        </a-assets>
+
+        <a-entity id="anchor-estacion1" position="0 0 0" visible="false">
+            <a-image src="#overlay-estacion1" width="1.35" height="1.05" position="0 0.5 0"></a-image>
+        </a-entity>
+
+        <a-entity id="anchor-estacion2" position="0 0 0" visible="false">
+            <a-image src="#overlay-estacion2" width="1.35" height="1.05" position="0 0.5 0"></a-image>
+        </a-entity>
+
+        <a-marker type="pattern"
+                  id="marker-estacion1"
+                  url="/public/assets/markers/pattern-marcador-1.patt"
+                  marker-anchor="target: #anchor-estacion1"
+                  emitevents="true">
+        </a-marker>
+
+        <a-marker type="pattern"
+                  id="marker-estacion2"
+                  url="/public/assets/markers/pattern-marcador-2.patt"
+                  marker-anchor="target: #anchor-estacion2"
+                  emitevents="true">
+        </a-marker>
+
+        <a-entity camera></a-entity>
+    </a-scene>
+</body>
+</html>

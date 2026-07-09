@@ -1,0 +1,32 @@
+{
+  "ui": {
+    "brand": "Community Project",
+    "badge": "Interactive guide",
+    "title": "AR Museum Base",
+    "location": "Santa Elena · Ecuador",
+    "subtitle": "AR experience with image markers",
+    "description": "Scan printed marks and view 2D overlays on top of the real environment.",
+    "start": "Start WebAR experience",
+    "warning": "Camera permission and a well-lit environment are required",
+    "back": "Back",
+    "scanner": "Scanner active",
+    "scanPrompt": "Point the camera to a valid marker...",
+    "online": "Online",
+    "offline": "Offline mode active",
+    "detected": "Detected"
+  },
+  "markers": {
+    "marker-estacion1": {
+      "title": "Station 1",
+      "description": "2D overlay shown on marker 1.",
+      "anchorLost": "Temporarily anchored",
+      "hint": "Point back to the marker for better stability."
+    },
+    "marker-estacion2": {
+      "title": "Station 2",
+      "description": "2D overlay shown on marker 2.",
+      "anchorLost": "Temporarily anchored",
+      "hint": "Point back to the marker for better stability."
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "ui": {
+    "brand": "Projet communautaire",
+    "badge": "Guide interactif",
+    "title": "Base Musee AR",
+    "location": "Santa Elena · Ecuador",
+    "subtitle": "Experience AR avec marqueurs image",
+    "description": "Scannez les marques imprimees et affichez des overlays 2D dans l environnement reel.",
+    "start": "Demarrer l experience WebAR",
+    "warning": "Autorisation camera et environnement bien eclaire requis",
+    "back": "Retour",
+    "scanner": "Scanner actif",
+    "scanPrompt": "Pointez la camera vers un marqueur valide...",
+    "online": "En ligne",
+    "offline": "Mode hors ligne actif",
+    "detected": "Detecte"
+  },
+  "markers": {
+    "marker-estacion1": {
+      "title": "Station 1",
+      "description": "Overlay 2D affiche sur le marqueur 1.",
+      "anchorLost": "Ancre temporairement",
+      "hint": "Revenez vers le marqueur pour plus de stabilite."
+    },
+    "marker-estacion2": {
+      "title": "Station 2",
+      "description": "Overlay 2D affiche sur le marqueur 2.",
+      "anchorLost": "Ancre temporairement",
+      "hint": "Revenez vers le marqueur pour plus de stabilite."
+    }
+  }
+}

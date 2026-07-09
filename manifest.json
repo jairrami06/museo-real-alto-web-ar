@@ -1,0 +1,25 @@
+{
+  "name": "WebAR Base Proyecto",
+  "short_name": "WebAR Base",
+  "description": "Base WebAR con marcadores de imagen, i18n y soporte offline",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#1c1917",
+  "theme_color": "#1c1917",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "/public/images/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/public/images/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

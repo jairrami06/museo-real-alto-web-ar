@@ -1,0 +1,32 @@
+{
+  "ui": {
+    "brand": "Proyecto Comunitario",
+    "badge": "Guia interactiva",
+    "title": "Museo AR Base",
+    "location": "Santa Elena · Ecuador",
+    "subtitle": "Experiencia AR con marcadores de imagen",
+    "description": "Escanea las marcas impresas y visualiza laminas 2D sobre el entorno en tiempo real.",
+    "start": "Iniciar experiencia WebAR",
+    "warning": "Requiere permisos de camara y un entorno bien iluminado",
+    "back": "Volver",
+    "scanner": "Escaner activo",
+    "scanPrompt": "Apunta la camara hacia una marca valida...",
+    "online": "En linea",
+    "offline": "Modo offline activo",
+    "detected": "Detectado"
+  },
+  "markers": {
+    "marker-estacion1": {
+      "title": "Estacion 1",
+      "description": "Lamina 2D mostrada sobre la marca 1.",
+      "anchorLost": "Anclado temporalmente",
+      "hint": "Vuelve a apuntar a la marca para mayor estabilidad."
+    },
+    "marker-estacion2": {
+      "title": "Estacion 2",
+      "description": "Lamina 2D mostrada sobre la marca 2.",
+      "anchorLost": "Anclado temporalmente",
+      "hint": "Vuelve a apuntar a la marca para mayor estabilidad."
+    }
+  }
+}
